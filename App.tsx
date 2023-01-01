@@ -1,20 +1,35 @@
 import { StatusBar } from 'expo-status-bar'
-import { StyleSheet, Text, View } from 'react-native'
+import {
+  useFonts,
+  Inter_200ExtraLight,
+  Inter_400Regular,
+  Inter_500Medium,
+  Inter_600SemiBold,
+  Inter_700Bold,
+  Inter_800ExtraBold
+} from '@expo-google-fonts/inter'
+import { Home } from './src/screens/Home'
+import { ThemeProvider } from 'styled-components/native'
+import { light } from './src/theme'
+import { SafeAreaProvider } from 'react-native-safe-area-context'
+import { ActivityIndicator } from 'react-native'
 
 export default function App() {
+  const [fontsLoaded] = useFonts({
+    Inter_200ExtraLight,
+    Inter_400Regular,
+    Inter_500Medium,
+    Inter_600SemiBold,
+    Inter_700Bold,
+    Inter_800ExtraBold
+  })
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style='auto' />
-    </View>
+    <SafeAreaProvider>
+      <ThemeProvider theme={light}>
+        <StatusBar style='light' animated translucent/>
+        {fontsLoaded ? <Home />: <ActivityIndicator />}
+      </ThemeProvider>
+    </SafeAreaProvider>
   )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center'
-  }
-})
