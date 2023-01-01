@@ -12,9 +12,13 @@ import { Ionicons } from '@expo/vector-icons'
 import { useState } from 'react'
 import { clients, IClient } from '../clients'
 import { ClientCard } from '../components/ClientCard'
+import { ModalAddClient } from '../components/ModalAddClient'
+import { ModalMoney } from '../components/ModalMoney'
 
 export function Home() {
   const [clientsList, setClientsList] = useState<IClient[]>(clients)
+  const [isModalClient, setIsModalClient] = useState<boolean>(false)
+  const [isModalMoney, setIsModalMoney] = useState<boolean>(false)
 
   const date = new Date().getHours()
   const Hour = () => {
@@ -32,41 +36,59 @@ export function Home() {
     }
   }
 
+  function onDecrementClient(clientId: string) {
+    setClientsList(prevState =>
+      prevState.filter(client => client.id !== clientId)
+    )
+  }
+
   return (
-    <ContainerSafe>
-      <Header>
-        <Welcome>
-          <Title>Bem vindo ao</Title>
-          <Title variant='logo'>
-            Barber<Title weight='bold'>APP</Title>
-          </Title>
-          <Title variant='hour'>{Hour()}</Title>
-        </Welcome>
+    <>
+      <ContainerSafe>
+        <Header>
+          <Welcome>
+            <Title>Bem vindo ao</Title>
+            <Title variant='logo'>
+              Barber<Title weight='bold'>APP</Title>
+            </Title>
+            <Title variant='hour'>{Hour()}</Title>
+          </Welcome>
 
-        <TotalRS>
-          <Title variant='total'>Total R$</Title>
-        </TotalRS>
-      </Header>
+          <TotalRS onPress={() => setIsModalMoney(true)}>
+            <Title variant='total'>Total R$</Title>
+          </TotalRS>
+        </Header>
 
-      <Client>
-        <Title>Clientes</Title>
-        <IconClient>
-          <Ionicons name='person-add' size={24} color='white' />
-        </IconClient>
-      </Client>
+        <Client>
+          <Title>Clientes</Title>
+          <IconClient onPress={() => setIsModalClient(true)}>
+            <Ionicons name='person-add' size={24} color='white' />
+          </IconClient>
+        </Client>
 
-      <ClientList
-        data={clientsList}
-        keyExtractor={item => item.id}
-        renderItem={({item: client}) => (
-          <ClientCard
-            key={client.id}
-            name={client.name}
-            services={client.service}
-          />
+        <ClientList
+          data={clientsList}
+          keyExtractor={item => item.id}
+          renderItem={({ item: client }) => (
+            <ClientCard
+              name={client.name}
+              services={client.service}
+              clientId={client.id}
+              onDecrement={onDecrementClient}
+            />
+          )}
+        />
 
-        )}
-      />
-    </ContainerSafe>
+        <ModalAddClient
+          visible={isModalClient}
+          onClose={() => setIsModalClient(false)}
+        />
+
+        <ModalMoney
+          visible={isModalMoney}
+          onClose={() => setIsModalMoney(false)}
+        />
+      </ContainerSafe>
+    </>
   )
 }

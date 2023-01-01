@@ -16,25 +16,25 @@ export const services: IServices[] = [
     id: '1',
     name: 'Cabelo',
     price: 25,
-    icon: '../assets/Maquina.png'
+    icon: 'https://cdn-icons-png.flaticon.com/512/7478/7478480.png'
   },
   {
     id: '2',
     name: 'Barba',
     price: 20,
-    icon: '../assets/bigode.png'
+    icon: 'https://cdn-icons-png.flaticon.com/512/7578/7578754.png'
   },
   {
     id: '3',
     name: 'Sobrancelha',
     price: 20,
-    icon: '../assets/navalha.png'
+    icon: 'https://cdn-icons-png.flaticon.com/512/2821/2821012.png'
   },
   {
     id: '4',
     name: 'Pigmentação',
     price: 40,
-    icon: '../assets/tinta.png'
+    icon: 'https://cdn-icons-png.flaticon.com/512/1008/1008637.png'
   }
 ]
 
@@ -47,25 +47,25 @@ export const clients: IClient[] = [
         id: '1',
         name: 'Cabelo',
         price: 25,
-        icon: '../assets/Maquina.png'
+        icon: 'https://cdn-icons-png.flaticon.com/512/7478/7478480.png'
       },
       {
         id: '2',
         name: 'Barba',
         price: 20,
-        icon: '../assets/bigode.png'
+        icon: 'https://cdn-icons-png.flaticon.com/512/7578/7578754.png'
       },
       {
         id: '3',
         name: 'Sobrancelha',
         price: 20,
-        icon: '../assets/navalha.png'
+        icon: 'https://cdn-icons-png.flaticon.com/512/2821/2821012.png'
       },
       {
         id: '4',
         name: 'Pigmentação',
         price: 40,
-        icon: '../assets/tinta.png'
+        icon: 'https://cdn-icons-png.flaticon.com/512/1008/1008637.png'
       }
     ]
   },
@@ -77,13 +77,13 @@ export const clients: IClient[] = [
         id: '1',
         name: 'Cabelo',
         price: 25,
-        icon: '../assets/Maquina.png'
+        icon: 'https://cdn-icons-png.flaticon.com/512/7478/7478480.png'
       },
       {
         id: '2',
         name: 'Barba',
         price: 20,
-        icon: '../assets/navalha.png'
+        icon: 'https://cdn-icons-png.flaticon.com/512/7578/7578754.png'
       }
     ]
   },
@@ -95,13 +95,13 @@ export const clients: IClient[] = [
         id: '1',
         name: 'Cabelo',
         price: 25,
-        icon: '../assets/Maquina.png'
+        icon: 'https://cdn-icons-png.flaticon.com/512/7478/7478480.png'
       },
       {
         id: '3',
         name: 'Sobrancelha',
         price: 20,
-        icon: '../assets/navalha.png'
+        icon: 'https://cdn-icons-png.flaticon.com/512/2821/2821012.png'
       }
     ]
   },
@@ -113,13 +113,13 @@ export const clients: IClient[] = [
         id: '1',
         name: 'Cabelo',
         price: 25,
-        icon: '../assets/Maquina.png'
+        icon: 'https://cdn-icons-png.flaticon.com/512/7478/7478480.png'
       },
       {
         id: '4',
         name: 'Pigmentação',
         price: 40,
-        icon: '../assets/tinta.png'
+        icon: 'https://cdn-icons-png.flaticon.com/512/1008/1008637.png'
       }
     ]
   },
@@ -131,13 +131,13 @@ export const clients: IClient[] = [
         id: '2',
         name: 'Barba',
         price: 20,
-        icon: '../assets/Maquina.png'
+        icon: 'https://cdn-icons-png.flaticon.com/512/7578/7578754.png'
       },
       {
         id: '4',
         name: 'Pigmentação',
         price: 40,
-        icon: '../assets/tinta.png'
+        icon: 'https://cdn-icons-png.flaticon.com/512/1008/1008637.png'
       }
     ]
   }

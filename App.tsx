@@ -13,6 +13,8 @@ import { ThemeProvider } from 'styled-components/native'
 import { light } from './src/theme'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import { ActivityIndicator } from 'react-native'
+import 'intl'
+import 'intl/locale-data/jsonp/pt-BR'
 
 export default function App() {
   const [fontsLoaded] = useFonts({
