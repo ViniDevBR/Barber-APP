@@ -1,3 +1,6 @@
+//REACT
+import { useState } from 'react'
+//STYLED-COMPONENTS && ICONS
 import {
   ContainerSafe,
   Title,
@@ -9,11 +12,14 @@ import {
   ClientList
 } from './styles'
 import { Ionicons } from '@expo/vector-icons'
-import { useState } from 'react'
-import { clients, IClient } from '../clients'
+//API MOCK
+import { clients } from '../clients'
+//COMPONENTS
 import { ClientCard } from '../components/ClientCard'
 import { ModalAddClient } from '../components/ModalAddClient'
 import { ModalMoney } from '../components/ModalMoney'
+//TYPES
+import { IClient } from '../@types/Clients'
 
 export function Home() {
   const [clientsList, setClientsList] = useState<IClient[]>(clients)
@@ -87,6 +93,7 @@ export function Home() {
         <ModalMoney
           visible={isModalMoney}
           onClose={() => setIsModalMoney(false)}
+          onCleanValue={() => []}
         />
       </ContainerSafe>
     </>
