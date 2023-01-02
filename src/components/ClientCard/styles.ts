@@ -34,8 +34,8 @@ export const NameContainer = styled.View`
 `
 
 export const Image = styled.Image`
-  width: 20px;
-  height: 20px;
+  width: 30px;
+  height: 30px;
   margin-right: 4px;
 `
 

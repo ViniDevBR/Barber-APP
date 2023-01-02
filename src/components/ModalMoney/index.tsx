@@ -1,8 +1,10 @@
-import { Container, ModalContainer, Overlay } from './styles'
-
+import { Container, ModalContainer, Overlay, TextContent } from './styles'
+import { Button } from '../Button'
+import { formatCoin } from '../../utils/formatCoin'
 interface Props {
   visible: boolean
   onClose: VoidFunction
+  onCleanValue: VoidFunction
 }
 
 export function ModalMoney(props: Props) {
@@ -15,7 +17,17 @@ export function ModalMoney(props: Props) {
     >
       <Overlay onPress={props.onClose}/>
       <Container>
+        <TextContent>
+          Renda
+        </TextContent>
+        <TextContent variant='content'>
+          Total do dia: <TextContent variant='content'>{formatCoin(32)}</TextContent>
+        </TextContent>
+        <TextContent variant='content'>
+          Total do mês: <TextContent variant='content'>{formatCoin(32)}</TextContent>
+        </TextContent>
 
+        <Button title='Limpar' onPress={props.onCleanValue}/>
       </Container>
     </ModalContainer>
   )
