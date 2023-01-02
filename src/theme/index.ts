@@ -7,6 +7,7 @@ export const light = {
     GRAY_100: '#D9D9D9',
     GRAY_500: '#A6A6A6',
     GRAY_600: '#6A6A6A',
+    GRAY_650: '#474747',
     GRAY_700: '#3A3A3A',
     GRAY_900: '#151515',
 
