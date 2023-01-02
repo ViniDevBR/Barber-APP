@@ -1,5 +1,8 @@
+//STYLED COMPONENTS
 import { Container, ModalContainer, Overlay, TextContent } from './styles'
+//COMPONENTS
 import { Button } from '../Button'
+//UTILS
 import { formatCoin } from '../../utils/formatCoin'
 interface Props {
   visible: boolean

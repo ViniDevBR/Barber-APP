@@ -1,32 +1,32 @@
+//REACT
 import { useState } from 'react'
+//STYLED COMPONENTS && ICONS
 import { useTheme } from 'styled-components/native'
 import { Container, IconContainer, Text } from './styles'
 import { Feather } from '@expo/vector-icons'
+//TYPES
+import { IServices } from '../../@types/Clients'
 
 interface Props {
-  id: string
-  name: string
-  price: number
-  onAddPrice: (price: number, id: string) => void
+  service: IServices
+  onSelectItem: (service: IServices) => void
 }
 
-export function Select(props: Props) {
+export function Select({ onSelectItem, service }: Props) {
   const { COLORS } = useTheme()
   const [isFocused, setIsFocused] = useState<boolean>(false)
 
-  function handleAddPrice(price: number, id: string) {
+  function handleAddPrice(service: IServices) {
     setIsFocused(!isFocused)
+
     if (!isFocused) {
-      props.onAddPrice(price, id)
+      onSelectItem(service)
     }
   }
 
   return (
-    <Container
-      isFocused={isFocused}
-      onPress={() => handleAddPrice(props.price, props.id)}
-    >
-      <Text isFocused={isFocused}>{props.name}</Text>
+    <Container isFocused={isFocused} onPress={() => handleAddPrice(service)}>
+      <Text isFocused={isFocused}>{service.name}</Text>
 
       <IconContainer>
         {isFocused ? (

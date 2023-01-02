@@ -1,7 +1,7 @@
 //REACT
 import { ComponentProps, useState } from 'react'
 import { TextInputProps } from 'react-native'
-//STYLES && ICONS && HOOK
+//STYLED COMPOENTS && ICONS
 import { InputContainer, InputText, IconContainer } from './styles'
 import { useTheme } from 'styled-components'
 import { Feather } from '@expo/vector-icons'

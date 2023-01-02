@@ -1,3 +1,10 @@
+//REACT
+import { useState } from 'react'
+import { FlatList, Modal } from 'react-native'
+//COMPONENTS
+import { Input } from '../Input'
+import { Select } from '../Select'
+//STYLED COMPONENTS
 import {
   Container,
   DataContainer,
@@ -5,29 +12,29 @@ import {
   LateralView,
   NameClient
 } from './styles'
-import { FlatList, Modal } from 'react-native'
-import { Input } from '../Input'
-import { Select } from '../Select'
+//API MOCK
 import { services } from '../../clients'
+//UTILS
 import { formatCoin } from '../../utils/formatCoin'
-import { useState } from 'react'
+//TYPES
+import { IServices } from '../../@types/Clients'
 
 interface Props {
   visible: boolean
   onClose: VoidFunction
-  loading?: boolean
-  onChangeStatus?: VoidFunction
 }
 
 export function ModalAddClient(props: Props) {
-  const [valueItems, setValueItems] = useState<number[]>([])
-  const finalValue = valueItems.reduce((acc, ccr) => acc + ccr, 0)
+  const [selectedItems, setValueItems] = useState<IServices[]>([])
+  const finalValue = selectedItems.reduce((acc, ccr) => acc + ccr.price, 0)
 
-  function handleAddItem(price: number, id: string) {
-    setValueItems(prev => prev.concat(price))
-    setValueItems(prev => prev.filter(value => value))
+  function handleSelectItem(service: IServices) {
+    if (selectedItems.includes(service)) {
+      setValueItems(prev => prev.filter(value => value.id !== service.id))
+    }
+    setValueItems(prev => prev.concat(service))
   }
-  console.log(valueItems)
+
   return (
     <Modal
       visible={props.visible}
@@ -57,12 +64,7 @@ export function ModalAddClient(props: Props) {
               keyExtractor={service => service.id}
               renderItem={({ item: service }) => {
                 return (
-                  <Select
-                    name={service.name}
-                    price={service.price}
-                    id={service.id}
-                    onAddPrice={handleAddItem}
-                  />
+                  <Select service={service} onSelectItem={handleSelectItem} />
                 )
               }}
             />

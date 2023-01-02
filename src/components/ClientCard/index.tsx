@@ -1,6 +1,17 @@
-import { Container, Name, NameContainer, Image, PriceContainer, ButtonFinish } from './styles'
-import { IServices } from '../../clients'
+//REACT
 import { FlatList } from 'react-native'
+//STYLED COMPONENTS
+import {
+  Container,
+  Name,
+  NameContainer,
+  Image,
+  PriceContainer,
+  ButtonFinish
+} from './styles'
+//TYPES
+import { IServices } from '../../@types/Clients'
+//UTILS
 import { formatCoin } from '../../utils/formatCoin'
 
 interface IClientCardProps {
@@ -11,14 +22,13 @@ interface IClientCardProps {
 }
 
 export function ClientCard({ services, onDecrement, ...props }: IClientCardProps) {
-
   return (
     <Container>
       <NameContainer>
         <Name>{props.name}</Name>
         <FlatList
           data={services}
-          style={{flexDirection: 'row', marginTop: 12}}
+          style={{ flexDirection: 'row', marginTop: 12 }}
           keyExtractor={services => services.id}
           renderItem={({ item: service }) => (
             <Image source={{ uri: service.icon }} />
