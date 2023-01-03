@@ -1,3 +1,7 @@
+//REACT
+import { SafeAreaProvider } from 'react-native-safe-area-context'
+import { ActivityIndicator } from 'react-native'
+//EXPO
 import { StatusBar } from 'expo-status-bar'
 import {
   useFonts,
@@ -8,13 +12,15 @@ import {
   Inter_700Bold,
   Inter_800ExtraBold
 } from '@expo-google-fonts/inter'
+//SCREENS
 import { Home } from './src/screens/Home'
+//STYLED
 import { ThemeProvider } from 'styled-components/native'
 import { light } from './src/theme'
-import { SafeAreaProvider } from 'react-native-safe-area-context'
-import { ActivityIndicator } from 'react-native'
+//UTILS LIBS
 import 'intl'
 import 'intl/locale-data/jsonp/pt-BR'
+import 'react-native-get-random-values'
 
 export default function App() {
   const [fontsLoaded] = useFonts({
