@@ -33,6 +33,11 @@ export const NameContainer = styled.View`
 
 `
 
+export const EmptyFlatList = styled.View`
+  width: 30px;
+  height: 30px;
+`
+
 export const Image = styled.Image`
   width: 30px;
   height: 30px;
@@ -40,14 +45,15 @@ export const Image = styled.Image`
 `
 
 export const PriceContainer = styled.View`
-
+  align-items: center;
 `
 
 export const ButtonFinish = styled.TouchableOpacity`
   background-color: ${({theme}) => theme.COLORS.GRAY_600};
   margin-top: 12px;
-  padding: 4px 12px;
+  padding: 4px 0px;
   align-items: center;
   justify-content: center;
   border-radius: 4px;
+  width: 100px;
 `

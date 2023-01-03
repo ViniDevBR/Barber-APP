@@ -4,6 +4,10 @@ interface IText {
   variant?: 'title'
 }
 
+interface IButton {
+  variant?: 'cancel'
+}
+
 export const Container = styled.View`
   flex: 1;
   background-color: #151515;
@@ -21,12 +25,17 @@ export const Text = styled.Text<IText>`
   `}
 `
 
-export const DataContainer = styled.View`
+export const DataContainer = styled.View<IButton>`
   margin-top: 16px;
   flex-direction: row;
+
+  ${({ variant }) => variant === 'cancel' && css`
+    justify-content: space-between;
+    align-items: center;
+  `}
 `
 
-export const DataContent = styled.View`
+export const DataContent = styled.Pressable`
   flex: 1;
   margin-left: 8px;
 `

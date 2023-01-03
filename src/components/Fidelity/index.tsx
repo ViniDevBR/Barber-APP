@@ -1,26 +1,24 @@
 //REACT
-import { useState } from 'react'
+import { Dispatch, SetStateAction } from 'react'
+import { TouchableOpacityProps } from 'react-native'
 //STYLED COMPONENTS && ICONS
 import { useTheme } from 'styled-components/native'
 import { Container, IconContainer, Text } from './styles'
 import { Feather } from '@expo/vector-icons'
-//TYPES
-import { IServices } from '../../@types/Clients'
 
-interface Props {
-  onSelectItem?: (service: IServices) => void
+interface Props extends TouchableOpacityProps {
+  state: boolean
+  setState: Dispatch<SetStateAction<boolean>>
 }
-
-export function Fidelity(props: Props) {
+export function Fidelity({ state, setState, ...props}: Props) {
   const { COLORS } = useTheme()
-  const [isFocused, setIsFocused] = useState<boolean>(false)
 
   return (
-    <Container isFocused={isFocused} onPress={() => setIsFocused(!isFocused)}>
-      <Text isFocused={isFocused}>{isFocused ? 'Sim' : 'Não'}</Text>
+    <Container isFocused={state} onPress={() => setState(!state)} {...props}>
+      <Text isFocused={state}>{state ? 'Sim' : 'Não'}</Text>
 
       <IconContainer>
-        {isFocused ? (
+        {state ? (
           <Feather
             name='check-circle'
             size={24}
