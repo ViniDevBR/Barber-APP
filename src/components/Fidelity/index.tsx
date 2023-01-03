@@ -8,22 +8,16 @@ import { Feather } from '@expo/vector-icons'
 import { IServices } from '../../@types/Clients'
 
 interface Props {
-  service: IServices
-  onSelectItem: (service: IServices) => void
+  onSelectItem?: (service: IServices) => void
 }
 
-export function Select({ onSelectItem, service }: Props) {
+export function Fidelity(props: Props) {
   const { COLORS } = useTheme()
   const [isFocused, setIsFocused] = useState<boolean>(false)
 
-  function handleAddPrice(service: IServices) {
-    setIsFocused(!isFocused)
-    onSelectItem(service)
-  }
-
   return (
-    <Container isFocused={isFocused} onPress={() => handleAddPrice(service)}>
-      <Text isFocused={isFocused}>{service.name}</Text>
+    <Container isFocused={isFocused} onPress={() => setIsFocused(!isFocused)}>
+      <Text isFocused={isFocused}>{isFocused ? 'Sim' : 'Não'}</Text>
 
       <IconContainer>
         {isFocused ? (
@@ -34,9 +28,9 @@ export function Select({ onSelectItem, service }: Props) {
           />
         ) : (
           <Feather
-            name='circle'
+            name='x-circle'
             size={24}
-            color={COLORS.GRAY_650}
+            color={COLORS.RED}
           />
         )}
       </IconContainer>

@@ -26,7 +26,7 @@ export const DataContainer = styled.View`
   flex-direction: row;
 `
 
-export const NameClient = styled.View`
+export const DataContent = styled.View`
   flex: 1;
   margin-left: 8px;
 `
