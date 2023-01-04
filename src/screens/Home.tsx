@@ -20,7 +20,7 @@ import { ModalMoney } from '../components/ModalMoney'
 import { IClient } from '../@types/Clients'
 
 export function Home() {
-  const [totalDay, setTotalDay] = useState<number>(100)
+  const [totalDay, setTotalDay] = useState<number>(0)
   const [totalMonth, setTotalMonth] = useState<number>(0)
   const [clientsList, setClientsList] = useState<IClient[]>([])
   const [isModalClient, setIsModalClient] = useState<boolean>(false)
@@ -56,6 +56,11 @@ export function Home() {
     const addToTotal = findServices.reduce((acc, ccr) => acc + ccr.price, 0)
     setTotalDay(prevState => prevState + addToTotal)
     setTotalMonth(prevState => prevState + addToTotal)
+  }
+
+  function handleCleanValues() {
+    setTotalDay(0)
+    setTotalMonth(0)
   }
 
   const date = new Date()
@@ -115,7 +120,7 @@ export function Home() {
         <ModalMoney
           visible={isModalMoney}
           onClose={() => setIsModalMoney(false)}
-          onCleanValue={() => []}
+          onCleanValue={handleCleanValues}
           valueDay={totalDay}
           valueMonth={totalMonth}
         />
