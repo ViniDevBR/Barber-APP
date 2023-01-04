@@ -47,12 +47,20 @@ export function ModalAddClient({ onClose, onAddClient, ...props}: Props) {
   }
 
   function handleNewClient() {
-    onAddClient(prevState => prevState.concat([{
+    const newClient = {
       id: uuidv1(),
       name: textInput,
       service: fidelity ? [] : selectedItems
-    }]))
-    
+    }
+    onAddClient(prevState => prevState.concat(newClient))
+
+    setFidelity(false)
+    setSelectedItems([])
+    setTextInput('')
+    onClose()
+  }
+
+  function handleCancelButton() {
     setFidelity(false)
     setSelectedItems([])
     setTextInput('')
@@ -81,6 +89,7 @@ export function ModalAddClient({ onClose, onAddClient, ...props}: Props) {
                 name='Nome'
                 placeholder='Nome do cliente'
                 icon='user'
+                value={textInput}
                 onChangeText={setTextInput}
               />
             </DataContent>
@@ -128,7 +137,7 @@ export function ModalAddClient({ onClose, onAddClient, ...props}: Props) {
           </DataContainer>
 
           <DataContainer variant='cancel'>
-            <Button variant='cancel' title='Cancelar' onPress={onClose}/>
+            <Button variant='cancel' title='Cancelar' onPress={handleCancelButton}/>
             <Button variant='add' title='Adicionar' onPress={handleNewClient} disabled={!textInput}/>
           </DataContainer>
         </Container>

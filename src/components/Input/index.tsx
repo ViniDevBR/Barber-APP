@@ -40,7 +40,7 @@ export function Input({ ...props }: InputProps) {
         <Feather
           name={props.icon}
           size={24}
-          color={isFocused || isFilled ? COLORS.GREEN_500 : COLORS.GRAY_650}
+          color={isFocused || isFilled ? COLORS.BLUE_100 : COLORS.GRAY_650}
         />
       </IconContainer>
     </InputContainer>
