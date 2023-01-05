@@ -54,6 +54,7 @@ export function Home() {
     const findClient = clientsList.filter(client => client.id === Client.id)
     const findServices = findClient.map(atribute => atribute.service).flat()
     const addToTotal = findServices.reduce((acc, ccr) => acc + ccr.price, 0)
+
     setTotalDay(prevState => prevState + addToTotal)
     setTotalMonth(prevState => prevState + addToTotal)
   }

@@ -22,7 +22,14 @@ interface IClientCardProps {
 }
 
 export function ClientCard({ services, onDecrement, client }: IClientCardProps) {
-  const finalValue = services.reduce((acc, ccr) => acc + ccr.price, 0)
+  const finalValue = () => {
+    // const name = services.map(services => services.name)
+    // const x = ['Cabelo', 'Barba']
+    // if(name.includes('Cabelo')) {
+    //   return 40
+    // }
+    return services.reduce((acc, ccr) => acc + ccr.price, 0)
+  }
 
   return (
     <Container>
@@ -40,7 +47,7 @@ export function ClientCard({ services, onDecrement, client }: IClientCardProps) 
       </NameContainer>
 
       <PriceContainer>
-        <Name variant='price'>{formatCoin(finalValue)}</Name>
+        <Name variant='price'>{formatCoin(finalValue())}</Name>
 
         <ButtonFinish onPress={() => onDecrement(client)}>
           <Name variant='finish'>Finalizar</Name>

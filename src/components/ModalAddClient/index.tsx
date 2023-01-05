@@ -21,7 +21,7 @@ import { formatCoin } from '../../utils/formatCoin'
 //TYPES
 import { IClient, IServices } from '../../@types/Clients'
 //UUID
-import { v1 as uuidv1} from 'uuid'
+import { v1 as uuidv1 } from 'uuid'
 
 interface Props {
   visible: boolean
@@ -29,7 +29,7 @@ interface Props {
   onAddClient: Dispatch<SetStateAction<IClient[]>>
 }
 
-export function ModalAddClient({ onClose, onAddClient, ...props}: Props) {
+export function ModalAddClient({ onClose, onAddClient, ...props }: Props) {
   const [fidelity, setFidelity] = useState<boolean>(false)
   const [selectedItems, setSelectedItems] = useState<IServices[]>([])
   const [textInput, setTextInput] = useState<string>('')
@@ -118,7 +118,7 @@ export function ModalAddClient({ onClose, onAddClient, ...props}: Props) {
 
             <DataContent>
               <Text variant='title'>Fidelidade</Text>
-              <Fidelity state={fidelity} setState={setFidelity}/>
+              <Fidelity state={fidelity} setState={setFidelity} />
             </DataContent>
           </DataContainer>
 
@@ -137,8 +137,17 @@ export function ModalAddClient({ onClose, onAddClient, ...props}: Props) {
           </DataContainer>
 
           <DataContainer variant='cancel'>
-            <Button variant='cancel' title='Cancelar' onPress={handleCancelButton}/>
-            <Button variant='add' title='Adicionar' onPress={handleNewClient} disabled={!textInput}/>
+            <Button
+              variant='cancel'
+              title='Cancelar'
+              onPress={handleCancelButton}
+            />
+            <Button
+              variant='add'
+              title='Adicionar'
+              onPress={handleNewClient}
+              disabled={!textInput}
+            />
           </DataContainer>
         </Container>
       </ScrollView>
