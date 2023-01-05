@@ -38,12 +38,12 @@ export function ModalAddClient({ onClose, onAddClient, ...props }: Props) {
 
   function handleSelectItem(service: IServices) {
     if (selectedItems.includes(service)) {
-      setSelectedItems(prevState =>
+      return setSelectedItems(prevState =>
         prevState.filter(salvedService => salvedService.id !== service.id)
       )
-    } else {
-      setSelectedItems(prevState => prevState.concat(service))
     }
+    
+    setSelectedItems(prevState => prevState.concat(service))
   }
 
   function handleNewClient() {

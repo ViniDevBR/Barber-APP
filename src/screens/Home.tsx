@@ -55,8 +55,18 @@ export function Home() {
     const findServices = findClient.map(atribute => atribute.service).flat()
     const addToTotal = findServices.reduce((acc, ccr) => acc + ccr.price, 0)
 
-    setTotalDay(prevState => prevState + addToTotal)
-    setTotalMonth(prevState => prevState + addToTotal)
+    const name = findServices.map(services => services.name)
+    if (name.includes('Cabelo') && name.includes('Barba') && !name.includes('Sobrancelha')) {
+      return (
+        setTotalDay(prevState => prevState + 40),
+        setTotalMonth(prevState => prevState + 40)
+      )
+    }
+
+    return (
+      setTotalDay(prevState => prevState + addToTotal),
+      setTotalMonth(prevState => prevState + addToTotal)
+    )
   }
 
   function handleCleanValues() {
@@ -74,7 +84,7 @@ export function Home() {
   useEffect(() => {
     today === lastDayDate && setTotalMonth(0)
     hour === 0 && setTotalDay(0)
-  },[today, hour])
+  }, [today, hour])
 
   return (
     <>

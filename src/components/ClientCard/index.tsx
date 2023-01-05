@@ -23,11 +23,11 @@ interface IClientCardProps {
 
 export function ClientCard({ services, onDecrement, client }: IClientCardProps) {
   const finalValue = () => {
-    // const name = services.map(services => services.name)
-    // const x = ['Cabelo', 'Barba']
-    // if(name.includes('Cabelo')) {
-    //   return 40
-    // }
+    const name = services.map(services => services.name)
+
+    if(name.includes('Cabelo') && name.includes('Barba') && !name.includes('Sobrancelha')) {
+      return 40
+    }
     return services.reduce((acc, ccr) => acc + ccr.price, 0)
   }
 
