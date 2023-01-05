@@ -42,11 +42,13 @@ export function ModalAddClient({ onClose, onAddClient, ...props }: Props) {
         prevState.filter(salvedService => salvedService.id !== service.id)
       )
     }
-    
+
     setSelectedItems(prevState => prevState.concat(service))
   }
 
   function handleNewClient() {
+    // const serviceForFidelity = JSON.parse(JSON.stringify(selectedItems))
+    // serviceForFidelity.forEach((item: IServices) => (item.price = 0))
     const newClient = {
       id: uuidv1(),
       name: textInput,
@@ -54,10 +56,7 @@ export function ModalAddClient({ onClose, onAddClient, ...props }: Props) {
     }
     onAddClient(prevState => prevState.concat(newClient))
 
-    setFidelity(false)
-    setSelectedItems([])
-    setTextInput('')
-    onClose()
+    handleCancelButton()
   }
 
   function handleCancelButton() {
