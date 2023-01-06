@@ -9,10 +9,10 @@ import { listServices } from './useCases/Services/listServices'
 import { createClient } from './useCases/Clients/createClient'
 import { createRegisterOfMoney } from './useCases/Money/createRegisterOfMoney'
 import { createService } from './useCases/Services/createService'
-//DELETE && PATCH
+//DELETE
 import { deleteClient } from './useCases/Clients/deleteClient'
 import { deleteServices } from './useCases/Services/deleteService'
-import { updateMoney } from './useCases/Money/updateMoney'
+
 
 export const router = Router()
 
@@ -34,5 +34,3 @@ router.delete('/clients/:id', deleteClient)
 router.post('/money', createRegisterOfMoney)
 //LIST MONEY
 router.get('/money', listMoney)
-//UPDATE MONEY
-router.patch('/money/:id', updateMoney)
