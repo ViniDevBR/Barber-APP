@@ -1,15 +1,14 @@
 //EXPRESS
 import { Router } from 'express'
-//USE CASES
-//GET
+//USE CASES - GET
 import { listClient } from './useCases/Clients/listClients'
 import { listMoney } from './useCases/Money/listMoney'
 import { listServices } from './useCases/Services/listServices'
-//POST
+//USE CASES - POST
 import { createClient } from './useCases/Clients/createClient'
 import { createRegisterOfMoney } from './useCases/Money/createRegisterOfMoney'
 import { createService } from './useCases/Services/createService'
-//DELETE
+//USE CASES - DELETE
 import { deleteClient } from './useCases/Clients/deleteClient'
 import { deleteServices } from './useCases/Services/deleteService'
 
