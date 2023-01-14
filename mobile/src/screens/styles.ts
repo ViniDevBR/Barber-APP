@@ -2,7 +2,7 @@
 import { FlatList, FlatListProps } from 'react-native'
 import styled, { css } from 'styled-components/native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { IClient } from '../clients'
+import { IClient } from '../@types/Clients'
 
 interface TTitle {
   weight?: 'regular' | 'bold'

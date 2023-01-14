@@ -1,6 +1,6 @@
 //REACT
 import { Dispatch, SetStateAction, useState } from 'react'
-import { FlatList, Modal, ScrollView } from 'react-native'
+import { Modal, ScrollView } from 'react-native'
 //COMPONENTS
 import { Input } from '../Input'
 import { Select } from '../Select'
@@ -99,16 +99,13 @@ export function ModalAddClient({ onClose, onAddClient, ...props }: Props) {
 
             <DataContent>
               <Text variant='title'>Serviço</Text>
-              <FlatList
-                scrollEnabled={false}
-                data={services}
-                keyExtractor={service => service.id}
-                renderItem={({ item: service }) => {
-                  return (
-                    <Select service={service} onSelectItem={handleSelectItem} />
-                  )
-                }}
-              />
+              {services.map(service => (
+                <Select
+                  key={service.id}
+                  service={service}
+                  onSelectItem={handleSelectItem}
+                />
+              ))}
             </DataContent>
           </DataContainer>
 
