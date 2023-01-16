@@ -9,12 +9,26 @@ import {
   TabPanel,
 } from '@material-tailwind/react'
 import { WhatsApp } from './components/WhatsApp'
-import { IClient } from './@types/Clients'
-import { clientsTest } from './clients'
+import { IClient, IServices } from './@types/Clients'
+import { clientsTest, servicesTest } from './clients'
+import { Input } from './components/Input'
+import { Money, User, CheckCircle } from 'phosphor-react'
+import { Select } from './components/Select'
+import { Fidelity } from './components/Fidelity'
+import { formatCoin } from './utils/formatCoin'
+import { BounceLoader as Loading} from 'react-spinners'
+
 
 export function App() {
   const [clients, setClients] = useState<IClient[]>([])
+  const [name, setName] = useState<string>('')
+  const [services, setServices] = useState<IServices[]>([])
+  const [clientFinished, setClientFinished] = useState<boolean>(false)
+  const [isFidelity, setIsFidelity] = useState<boolean>(false)
+  const [isLoading, setIsLoading] = useState<boolean>(false)
+
   const x = 5
+
   const hour = new Date().getHours()
   const Hour = () => {
     if (hour >= 0 && hour < 6) {
@@ -31,8 +45,22 @@ export function App() {
     }
   }
 
+  function handleFinishClient() {
+    try {
+      setIsLoading(true)
+
+    } catch (error) {
+      console.log(error)
+
+    } finally {
+      setClientFinished(true)
+      setIsLoading(false)
+    }
+  }
+
   useEffect(() => {
     setClients(clientsTest)
+    setServices(servicesTest)
   },[])
 
   return (
@@ -52,6 +80,7 @@ export function App() {
               <span className='font-bold text-xs'>Entrar na fila</span>
             </Tab>
           </TabsHeader>
+
           <TabsBody>
             <TabPanel value='fila' className='p-0 pt-4 text-blue-gray-200'>
               <span className='text-xs font-thin'>{x} Pessoas na fila</span>
@@ -66,8 +95,77 @@ export function App() {
                   </div>
                 )})}
             </TabPanel>
-            <TabPanel value='entrar'>
-            OLA MUNDO 2
+
+            <TabPanel value='entrar' className='p-0 pt-4 text-blue-gray-200'>
+              {!clientFinished && (
+                <>
+                  <p className='text-xs font-thin border-b border-b-gray-500 pb-1 mb-5'>
+                    Ao entrar na fila, somente o dono pode remove-lo da lista de espera. Em casos de não comparecimento ao local você sera removido automaticamente da lista.
+                  </p>
+
+                  <div className='mb-4'>
+                    <label htmlFor='input' className='text-white font-semibold text-xl'>Nome</label>
+                    <Input
+                      id='input'
+                      placeholder='Digite seu nome'
+                      icon={<User size={24} color='#0a0b0a' weight='duotone'/>}
+                      onChange={e => setName(e.target.value)}
+                      value={name}
+                    />
+                  </div>
+
+                  <div className='mb-4'>
+                    <label className='text-white font-semibold text-xl'>Serviço</label>
+                    {services.map(service =>
+                      <Select
+                        key={service.id}
+                        service={service}
+                        onSelectItem={() => []}
+                      />
+                    )}
+                  </div>
+
+                  <div className='mb-4'>
+                    <label className='text-white font-semibold text-xl'>Fidelidade</label>
+                    <Fidelity
+                      isFocused={isFidelity}
+                      onClick={() => setIsFidelity(!isFidelity)}
+                    />
+                  </div>
+
+                  <div className='mb-7'>
+                    <label className='text-white font-semibold text-xl'>Valor</label>
+                    <Input
+                      disabled
+                      icon={<Money size={24} color='#000' weight='duotone' />}
+                      value={formatCoin(32)}
+                    />
+                  </div>
+
+                  <button
+                    className='flex items-center justify-center text-xl font-bold text-white bg-black rounded py-[6px] w-full mb-12  disabled:bg-gray-550'
+                    onClick={handleFinishClient}
+                    disabled={isLoading}
+                  >
+                    {isLoading ? (
+                      <Loading
+                        color='#D8D8D8'
+                        size={28}
+                      />
+                    ) : (
+                      'Adicionar'
+                    )}
+                  </button>
+                </>
+              )}
+
+              {clientFinished && (
+                <div className='w-full flex flex-col items-center justify-center mt-14'>
+                  <CheckCircle size={70} color='#3A3A3A' weight='regular' />
+
+                  <p className='text-center'>Adicionado a fila com sucesso. Navegue até a lista</p>
+                </div>
+              )}
             </TabPanel>
           </TabsBody>
         </Tabs>
