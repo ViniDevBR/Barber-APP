@@ -18,7 +18,7 @@ mongoose.connect(process.env.MONGO_URL!)
     app.use(router)
 
     app.listen(process.env.APP_PORT, () => {
-      console.log('SERVER ONLINE MONSTÃO')
+      console.log('SERVER ONLINE MONSTÃO - PORTA -->', process.env.APP_PORT)
     })
   })
   .catch(() => console.log('MONGO FALHOU'))
