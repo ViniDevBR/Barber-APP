@@ -1,11 +1,11 @@
 export interface IClient {
-  id: string
+  _id: string
   name: string
   service: Array<IServices>
 }
 
 export interface IServices {
-  id: string
+  _id: string
   name: string
   price: number
   icon: string

@@ -1,6 +1,8 @@
-import './styles/globalStyles.css'
-import logo from './assets/logo.png'
+//REACT
 import { useEffect, useState } from 'react'
+//BACK END
+import { API } from './utils/api'
+//COMPONENTS
 import {
   Tabs,
   TabsHeader,
@@ -9,25 +11,31 @@ import {
   TabPanel,
 } from '@material-tailwind/react'
 import { WhatsApp } from './components/WhatsApp'
-import { IClient, IServices } from './@types/Clients'
-import { clientsTest, servicesTest } from './clients'
 import { Input } from './components/Input'
-import { Money, User, CheckCircle } from 'phosphor-react'
 import { Select } from './components/Select'
 import { Fidelity } from './components/Fidelity'
-import { formatCoin } from './utils/formatCoin'
 import { BounceLoader as Loading} from 'react-spinners'
+//ICONS
+import { Money, User, CheckCircle } from 'phosphor-react'
+//@TYPES
+import { IClient, IServices } from './@types/Clients'
+//OTHERS
+import './styles/globalStyles.css'
+import logo from './assets/logo.png'
+import { formatCoin } from './utils/formatCoin'
 
 
 export function App() {
   const [clients, setClients] = useState<IClient[]>([])
-  const [name, setName] = useState<string>('')
   const [services, setServices] = useState<IServices[]>([])
+  const [selectedItems, setSelectedItems] = useState<IServices[]>([])
+  const [name, setName] = useState<string>('')
   const [clientFinished, setClientFinished] = useState<boolean>(false)
   const [isFidelity, setIsFidelity] = useState<boolean>(false)
   const [isLoading, setIsLoading] = useState<boolean>(false)
 
-  const x = 5
+  const finalValue = selectedItems.reduce((acc, ccr) => acc + ccr.price, 0)
+  const valueOrFidelity = isFidelity ? 0 : finalValue
 
   const hour = new Date().getHours()
   const Hour = () => {
@@ -45,23 +53,62 @@ export function App() {
     }
   }
 
-  function handleFinishClient() {
+  const quantityOfClients = () => {
+    const quantity = clients.length
+
+    const result = quantity === 1 ? `${quantity} Pesooa na fila` : `${quantity} Pessoas na fila`
+    return result
+  }
+
+  function handleSelectedItens(service: IServices) {
+    if (selectedItems.includes(service)) {
+      return setSelectedItems(prev => prev.filter(oldService => oldService._id !== service._id))
+    }
+    setSelectedItems(prev => [...prev, service])
+  }
+
+  async function handleFinishClient() {
     try {
       setIsLoading(true)
+      const newClient = {
+        name,
+        services: isFidelity ? [] : selectedItems
+      }
+      API.post('/clients', newClient)
 
     } catch (error) {
       console.log(error)
 
     } finally {
-      setClientFinished(true)
+      setName('')
+      setSelectedItems([])
+      setIsFidelity(false)
       setIsLoading(false)
+      setClientFinished(true)
+    }
+  }
+
+  async function getInfosFromServer() {
+    try {
+      const [clientsData, servicesData] = await Promise.all([
+        API.get('/clients'),
+        API.get('/services')
+      ])
+
+      setClients(clientsData.data)
+      setServices(servicesData.data)
+
+    } catch (error) {
+      console.log(error)
+
+    } finally {
+      setTimeout(() => setClientFinished(false), 3000)
     }
   }
 
   useEffect(() => {
-    setClients(clientsTest)
-    setServices(servicesTest)
-  },[])
+    getInfosFromServer()
+  },[clientFinished])
 
   return (
     <div className='bg-gray-950 w-full min-h-screen'>
@@ -83,13 +130,13 @@ export function App() {
 
           <TabsBody>
             <TabPanel value='fila' className='p-0 pt-4 text-blue-gray-200'>
-              <span className='text-xs font-thin'>{x} Pessoas na fila</span>
+              <span className='text-xs font-thin'>{quantityOfClients()}</span>
 
               {clients.map((client, index) => {
                 const position = index + 1
 
                 return(
-                  <div key={client.id} className='flex items-center justify-between w-full bg-gray-350 py-2 px-4 rounded mb-2 mt-1'>
+                  <div key={client._id} className='flex items-center justify-between w-full bg-gray-350 py-2 px-4 rounded mb-2 mt-1'>
                     <span className='text-gray-950'>{position}°</span>
                     <p className='text-gray-950 '>{client.name}</p>
                   </div>
@@ -118,9 +165,9 @@ export function App() {
                     <label className='text-white font-semibold text-xl'>Serviço</label>
                     {services.map(service =>
                       <Select
-                        key={service.id}
+                        key={service._id}
                         service={service}
-                        onSelectItem={() => []}
+                        onSelectItem={handleSelectedItens}
                       />
                     )}
                   </div>
@@ -138,7 +185,7 @@ export function App() {
                     <Input
                       disabled
                       icon={<Money size={24} color='#000' weight='duotone' />}
-                      value={formatCoin(32)}
+                      value={formatCoin(valueOrFidelity)}
                     />
                   </div>
 
