@@ -43,14 +43,14 @@ export function ModalAddClient({ onClose, ...props }: Props) {
     setSelectedItems(prevState => prevState.concat(service))
   }
 
-  function handleNewClient() {
+  async function handleNewClient() {
     const newClient = {
       name: textInput,
       services: fidelity ? [] : selectedItems.map(service => ({
         service: service._id
       }))
     }
-    API.post('/clients', newClient)
+    await API.post('/clients', newClient)
 
     handleCancelButton()
   }

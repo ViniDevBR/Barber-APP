@@ -15,3 +15,8 @@ export interface ISelects {
   price: number
   icon: string
 }
+
+export interface IMoney {
+  totalOfDay: number
+  totalOfMonth: number
+}

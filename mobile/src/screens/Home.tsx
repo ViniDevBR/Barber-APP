@@ -17,7 +17,7 @@ import { ClientCard } from '../components/ClientCard'
 import { ModalAddClient } from '../components/ModalAddClient'
 import { ModalMoney } from '../components/ModalMoney'
 //TYPES
-import { IClient } from '../@types/Clients'
+import { IClient, IMoney } from '../@types/Clients'
 //BACK END
 import { API } from '../utils/api'
 
@@ -57,7 +57,7 @@ export function Home() {
     }
   }
 
-  function handleAddToTotal(Client: IClient) {
+  async function handleAddToTotal(Client: IClient) {
     const findClient = clientsList.filter(client => client._id === Client._id)
     const findServices = findClient.map(atribute => atribute.services).flat()
     const addToTotal = findServices.reduce((acc, ccr) => acc + ccr.service.price, 0)
@@ -78,13 +78,29 @@ export function Home() {
 
     return (
       setTotalDay(prevState => prevState + addToTotal),
-      setTotalMonth(prevState => prevState + addToTotal)
+      setTotalMonth(prevState => prevState + addToTotal),
+
+      await API.post('/money', {
+        totalOfMonth: totalMonth,
+        totalOfDay: totalDay
+      })
     )
   }
 
-  function handleCleanValues() {
-    setTotalDay(0)
-    setTotalMonth(0)
+  async function handleCleanValues() {
+    try {
+      const infos = {
+        totalOfDay: 0,
+        totalOfMonth: 0
+      }
+      await API.post('/money', infos)
+
+      setTotalDay(0)
+      setTotalMonth(0)
+
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   const date = new Date()
@@ -96,8 +112,15 @@ export function Home() {
 
   async function getInfosFromServer() {
     try {
-      const { data } = await API.get('/clients')
-      setClientsList(data)
+      const [clientsData, moneyData] = await Promise.all([
+        API.get('/clients'),
+        API.get('/money')
+      ])
+
+      setClientsList(clientsData.data)
+
+      const moneyInfos: Array<IMoney> = moneyData.data
+      moneyInfos.map(info => (setTotalDay(info.totalOfDay), setTotalMonth(info.totalOfMonth)))
     } catch (error) {
       console.log(error)
     }
