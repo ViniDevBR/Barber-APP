@@ -1,5 +1,5 @@
 //REACT
-import { Dispatch, SetStateAction, useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Modal, ScrollView } from 'react-native'
 //COMPONENTS
 import { Input } from '../Input'
@@ -14,32 +14,29 @@ import {
   LateralView,
   DataContent
 } from './styles'
-//API MOCK
-import { services } from '../../clients'
 //UTILS
 import { formatCoin } from '../../utils/formatCoin'
 //TYPES
-import { IClient, IServices } from '../../@types/Clients'
-//UUID
-import { v1 as uuidv1 } from 'uuid'
+import { ISelects } from '../../@types/Clients'
+import { API } from '../../utils/api'
 
 interface Props {
   visible: boolean
   onClose: VoidFunction
-  onAddClient: Dispatch<SetStateAction<IClient[]>>
 }
 
-export function ModalAddClient({ onClose, onAddClient, ...props }: Props) {
+export function ModalAddClient({ onClose, ...props }: Props) {
   const [fidelity, setFidelity] = useState<boolean>(false)
-  const [selectedItems, setSelectedItems] = useState<IServices[]>([])
+  const [selectedItems, setSelectedItems] = useState<ISelects[]>([])
   const [textInput, setTextInput] = useState<string>('')
+  const [services, setServices] = useState<ISelects[]>([])
 
   const finalValue = selectedItems.reduce((acc, ccr) => acc + ccr.price, 0)
 
-  function handleSelectItem(service: IServices) {
+  function handleSelectItem(service: ISelects) {
     if (selectedItems.includes(service)) {
       return setSelectedItems(prevState =>
-        prevState.filter(salvedService => salvedService.id !== service.id)
+        prevState.filter(salvedService => salvedService._id !== service._id)
       )
     }
 
@@ -47,14 +44,13 @@ export function ModalAddClient({ onClose, onAddClient, ...props }: Props) {
   }
 
   function handleNewClient() {
-    // const serviceForFidelity = JSON.parse(JSON.stringify(selectedItems))
-    // serviceForFidelity.forEach((item: IServices) => (item.price = 0))
     const newClient = {
-      id: uuidv1(),
       name: textInput,
-      service: fidelity ? [] : selectedItems
+      services: fidelity ? [] : selectedItems.map(service => ({
+        service: service._id
+      }))
     }
-    onAddClient(prevState => prevState.concat(newClient))
+    API.post('/clients', newClient)
 
     handleCancelButton()
   }
@@ -67,6 +63,18 @@ export function ModalAddClient({ onClose, onAddClient, ...props }: Props) {
   }
 
   const valueOrFidelity = fidelity ? 0 : finalValue
+
+  async function getInfosFromServer() {
+    try {
+      const { data } = await API.get('/services')
+      setServices(data)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  useEffect(() => {
+    getInfosFromServer()
+  },[])
 
   return (
     <Modal
@@ -101,7 +109,7 @@ export function ModalAddClient({ onClose, onAddClient, ...props }: Props) {
               <Text variant='title'>Serviço</Text>
               {services.map(service => (
                 <Select
-                  key={service.id}
+                  key={service._id}
                   service={service}
                   onSelectItem={handleSelectItem}
                 />

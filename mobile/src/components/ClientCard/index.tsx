@@ -18,17 +18,21 @@ import { formatCoin } from '../../utils/formatCoin'
 interface IClientCardProps {
   client: IClient
   onDecrement: (client: IClient) => void
-  services: Array<IServices>
+  services: IServices[]
 }
 
 export function ClientCard({ services, onDecrement, client }: IClientCardProps) {
+
   const finalValue = () => {
-    const name = services.map(services => services.name)
+    const name = services.map(services => services.service.name)
 
     if(name.includes('Cabelo') && name.includes('Barba') && !name.includes('Sobrancelha')) {
-      return 40
+      return 35
     }
-    return services.reduce((acc, ccr) => acc + ccr.price, 0)
+    if(name.includes('Cabelo') && name.includes('Barba') && name.includes('Sobrancelha')) {
+      return 50
+    }
+    return services.reduce((acc, ccr) => acc + ccr.service.price, 0)
   }
 
   return (
@@ -38,10 +42,10 @@ export function ClientCard({ services, onDecrement, client }: IClientCardProps) 
         <FlatList
           data={services}
           style={{ flexDirection: 'row', marginTop: 12 }}
-          keyExtractor={services => services.id}
+          keyExtractor={services => services._id}
           ListEmptyComponent={EmptyFlatList}
           renderItem={({ item: service }) => (
-            <Image source={{ uri: service.icon }} />
+            <Image source={{ uri: service.service.icon }} />
           )}
         />
       </NameContainer>

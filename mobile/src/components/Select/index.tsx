@@ -5,18 +5,18 @@ import { useTheme } from 'styled-components/native'
 import { Container, IconContainer, Text } from './styles'
 import { Feather } from '@expo/vector-icons'
 //TYPES
-import { IServices } from '../../@types/Clients'
+import { ISelects } from '../../@types/Clients'
 
 interface Props {
-  service: IServices
-  onSelectItem: (service: IServices) => void
+  service: ISelects
+  onSelectItem: (service: ISelects) => void
 }
 
 export function Select({ onSelectItem, service }: Props) {
   const { COLORS } = useTheme()
   const [isFocused, setIsFocused] = useState<boolean>(false)
 
-  function handleAddPrice(service: IServices) {
+  function handleAddPrice(service: ISelects) {
     setIsFocused(!isFocused)
     onSelectItem(service)
   }
