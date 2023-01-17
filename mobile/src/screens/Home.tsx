@@ -18,6 +18,8 @@ import { ModalAddClient } from '../components/ModalAddClient'
 import { ModalMoney } from '../components/ModalMoney'
 //TYPES
 import { IClient } from '../@types/Clients'
+//BACK END
+import { API } from '../utils/api'
 
 export function Home() {
   const [totalDay, setTotalDay] = useState<number>(0)
@@ -43,23 +45,34 @@ export function Home() {
   }
 
   function onDecrementClient(Client: IClient) {
-    setClientsList(prevState =>
-      prevState.filter(client => client.id !== Client.id)
-    )
+    try {
+      API.delete(`/clients/${Client._id}`)
+      setClientsList(prevState =>
+        prevState.filter(client => client._id !== Client._id)
+      )
 
-    handleAddToTotal(Client)
+      handleAddToTotal(Client)
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   function handleAddToTotal(Client: IClient) {
-    const findClient = clientsList.filter(client => client.id === Client.id)
-    const findServices = findClient.map(atribute => atribute.service).flat()
-    const addToTotal = findServices.reduce((acc, ccr) => acc + ccr.price, 0)
+    const findClient = clientsList.filter(client => client._id === Client._id)
+    const findServices = findClient.map(atribute => atribute.services).flat()
+    const addToTotal = findServices.reduce((acc, ccr) => acc + ccr.service.price, 0)
 
-    const name = findServices.map(services => services.name)
+    const name = findServices.map(services => services.service.name)
     if (name.includes('Cabelo') && name.includes('Barba') && !name.includes('Sobrancelha')) {
       return (
-        setTotalDay(prevState => prevState + 40),
-        setTotalMonth(prevState => prevState + 40)
+        setTotalDay(prevState => prevState + 35),
+        setTotalMonth(prevState => prevState + 35)
+      )
+    }
+    if (name.includes('Cabelo') && name.includes('Barba') && name.includes('Sobrancelha')) {
+      return (
+        setTotalDay(prevState => prevState + 50),
+        setTotalMonth(prevState => prevState + 50)
       )
     }
 
@@ -81,10 +94,23 @@ export function Home() {
   const time = Date.now()
   const today = new Date(time).toLocaleDateString()
 
+  async function getInfosFromServer() {
+    try {
+      const { data } = await API.get('/clients')
+      setClientsList(data)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   useEffect(() => {
     today === lastDayDate && setTotalMonth(0)
     hour === 0 && setTotalDay(0)
   }, [today, hour])
+
+  useEffect(() => {
+    getInfosFromServer()
+  },[isModalClient])
 
   return (
     <>
@@ -112,11 +138,11 @@ export function Home() {
 
         <ClientList
           data={clientsList}
-          keyExtractor={item => item.id}
+          keyExtractor={item => item._id}
           renderItem={({ item: client }) => (
             <ClientCard
               client={client}
-              services={client.service}
+              services={client.services}
               onDecrement={onDecrementClient}
             />
           )}
@@ -125,7 +151,6 @@ export function Home() {
         <ModalAddClient
           visible={isModalClient}
           onClose={() => setIsModalClient(false)}
-          onAddClient={setClientsList}
         />
 
         <ModalMoney

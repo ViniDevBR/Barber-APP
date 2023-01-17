@@ -20,7 +20,6 @@ import { light } from './src/theme'
 //UTILS LIBS
 import 'intl'
 import 'intl/locale-data/jsonp/pt-BR'
-import 'react-native-get-random-values'
 
 export default function App() {
   const [fontsLoaded] = useFonts({
