@@ -60,19 +60,23 @@ export function App() {
     return result
   }
 
-  function handleSelectedItens(service: IServices) {
+  function handleSelectedItems(service: IServices) {
     if (selectedItems.includes(service)) {
       return setSelectedItems(prev => prev.filter(oldService => oldService._id !== service._id))
     }
+
     setSelectedItems(prev => [...prev, service])
   }
 
   async function handleFinishClient() {
     try {
       setIsLoading(true)
+
       const newClient = {
         name,
-        services: isFidelity ? [] : selectedItems
+        services: isFidelity ? [] : selectedItems.map(service => ({
+          service: service._id
+        }))
       }
       API.post('/clients', newClient)
 
@@ -167,7 +171,7 @@ export function App() {
                       <Select
                         key={service._id}
                         service={service}
-                        onSelectItem={handleSelectedItens}
+                        onSelectItem={handleSelectedItems}
                       />
                     )}
                   </div>
