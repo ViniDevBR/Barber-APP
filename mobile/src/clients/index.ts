@@ -1,21 +1,20 @@
-import { IServices, IClient } from '../@types/Clients'
-//CABELO + BARBA = 40
+import { IClient, ISelects } from '../@types/Clients'
 
-export const services: IServices[] = [
+export const services: ISelects[] = [
   {
-    id: '1',
+    _id: '1',
     name: 'Cabelo',
     price: 25,
     icon: 'https://cdn-icons-png.flaticon.com/512/7478/7478480.png'
   },
   {
-    id: '2',
+    _id: '2',
     name: 'Barba',
     price: 20,
     icon: 'https://cdn-icons-png.flaticon.com/512/7578/7578754.png'
   },
   {
-    id: '3',
+    _id: '3',
     name: 'Sobrancelha',
     price: 15,
     icon: 'https://cdn-icons-png.flaticon.com/512/2821/2821012.png'
@@ -24,26 +23,37 @@ export const services: IServices[] = [
 
 export const clients: IClient[] = [
   {
-    id: '1',
+    _id: '1',
     name: 'Vinicius',
-    service: [
+    services: [
       {
-        id: '1',
-        name: 'Cabelo',
-        price: 25,
-        icon: 'https://cdn-icons-png.flaticon.com/512/7478/7478480.png'
+        'service': {
+          _id: '63b75a7f9a5167f88bb1356f',
+          name: 'Sobrancelha',
+          icon: 'https://cdn-icons-png.flaticon.com/512/2821/2821012.png',
+          price: 15,
+
+        },
+        _id: '63c5c3602d9d9f0035702eb3'
       },
       {
-        id: '2',
-        name: 'Barba',
-        price: 20,
-        icon: 'https://cdn-icons-png.flaticon.com/512/7578/7578754.png'
+        'service': {
+          _id: '63b75cd7eeb182ccf92c46a0',
+          name: 'Cabelo',
+          icon: 'https://cdn-icons-png.flaticon.com/512/7478/7478480.png',
+          price: 25,
+        },
+        _id: '63c5c3602d9d9f0035702eb4'
       },
       {
-        id: '3',
-        name: 'Sobrancelha',
-        price: 20,
-        icon: 'https://cdn-icons-png.flaticon.com/512/2821/2821012.png'
+        'service': {
+          _id: '63b75d5783496290fa00880f',
+          name: 'Barba',
+          icon: 'https://cdn-icons-png.flaticon.com/512/7578/7578754.png',
+          price: 20,
+
+        },
+        _id: '63c5c3602d9d9f0035702eb5'
       }
     ]
   }
