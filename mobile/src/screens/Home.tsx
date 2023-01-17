@@ -121,14 +121,25 @@ export function Home() {
 
       const moneyInfos: Array<IMoney> = moneyData.data
       moneyInfos.map(info => (setTotalDay(info.totalOfDay), setTotalMonth(info.totalOfMonth)))
+
     } catch (error) {
       console.log(error)
     }
   }
 
+  async function clearValues() {
+    today === lastDayDate && await API.post('/money', {
+      totalOfMonth: 0,
+      totalOfDay: 0
+    })
+    hour === 0 && await API.post('/money', {
+      totalOfMonth: totalMonth,
+      totalOfDay: 0
+    })
+  }
+
   useEffect(() => {
-    today === lastDayDate && setTotalMonth(0)
-    hour === 0 && setTotalDay(0)
+    clearValues()
   }, [today, hour])
 
   useEffect(() => {
@@ -136,54 +147,52 @@ export function Home() {
   },[isModalClient])
 
   return (
-    <>
-      <ContainerSafe>
-        <Header>
-          <Welcome>
-            <Title>Bem vindo ao</Title>
-            <Title variant='logo'>
-              Barber<Title weight='bold'>APP</Title>
-            </Title>
-            <Title variant='hour'>{Hour()}</Title>
-          </Welcome>
+    <ContainerSafe>
+      <Header>
+        <Welcome>
+          <Title>Bem vindo ao</Title>
+          <Title variant='logo'>
+            Barber<Title weight='bold'>APP</Title>
+          </Title>
+          <Title variant='hour'>{Hour()}</Title>
+        </Welcome>
 
-          <TotalRS onPress={() => setIsModalMoney(true)}>
-            <Title variant='total'>Total R$</Title>
-          </TotalRS>
-        </Header>
+        <TotalRS onPress={() => setIsModalMoney(true)}>
+          <Title variant='total'>Total R$</Title>
+        </TotalRS>
+      </Header>
 
-        <Client>
-          <Title>Clientes</Title>
-          <IconClient onPress={() => setIsModalClient(true)}>
-            <Ionicons name='person-add' size={24} color='white' />
-          </IconClient>
-        </Client>
+      <Client>
+        <Title>Clientes</Title>
+        <IconClient onPress={() => setIsModalClient(true)}>
+          <Ionicons name='person-add' size={24} color='white' />
+        </IconClient>
+      </Client>
 
-        <ClientList
-          data={clientsList}
-          keyExtractor={item => item._id}
-          renderItem={({ item: client }) => (
-            <ClientCard
-              client={client}
-              services={client.services}
-              onDecrement={onDecrementClient}
-            />
-          )}
-        />
+      <ClientList
+        data={clientsList}
+        keyExtractor={item => item._id}
+        renderItem={({ item: client }) => (
+          <ClientCard
+            client={client}
+            services={client.services}
+            onDecrement={onDecrementClient}
+          />
+        )}
+      />
 
-        <ModalAddClient
-          visible={isModalClient}
-          onClose={() => setIsModalClient(false)}
-        />
+      <ModalAddClient
+        visible={isModalClient}
+        onClose={() => setIsModalClient(false)}
+      />
 
-        <ModalMoney
-          visible={isModalMoney}
-          onClose={() => setIsModalMoney(false)}
-          onCleanValue={handleCleanValues}
-          valueDay={totalDay}
-          valueMonth={totalMonth}
-        />
-      </ContainerSafe>
-    </>
+      <ModalMoney
+        visible={isModalMoney}
+        onClose={() => setIsModalMoney(false)}
+        onCleanValue={handleCleanValues}
+        valueDay={totalDay}
+        valueMonth={totalMonth}
+      />
+    </ContainerSafe>
   )
 }
