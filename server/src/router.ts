@@ -11,6 +11,8 @@ import { createService } from './useCases/Services/createService'
 //USE CASES - DELETE
 import { deleteClient } from './useCases/Clients/deleteClient'
 import { deleteServices } from './useCases/Services/deleteService'
+import { Money } from './Models/Money'
+import { updateMoney } from './useCases/Money/updateMoney'
 
 
 export const router = Router()
@@ -33,3 +35,5 @@ router.delete('/clients/:id', deleteClient)
 router.post('/money', createRegisterOfMoney)
 //LIST MONEY
 router.get('/money', listMoney)
+//UPDATE MONEY
+router.put('/money/:id', updateMoney)
