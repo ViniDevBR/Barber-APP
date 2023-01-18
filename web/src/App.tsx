@@ -55,9 +55,14 @@ export function App() {
 
   const quantityOfClients = () => {
     const quantity = clients.length
+    if (quantity === 0) {
+      return 'Seja o primeiro a entrar na fila'
+    }
+    if (quantity === 1) {
+      return `${quantity} Pesooa na fila`
+    }
 
-    const result = quantity === 1 ? `${quantity} Pesooa na fila` : `${quantity} Pessoas na fila`
-    return result
+    return `${quantity} Pessoas na fila`
   }
 
   function handleSelectedItems(service: IServices) {
@@ -74,9 +79,10 @@ export function App() {
 
       const newClient = {
         name,
-        services: isFidelity ? [] : selectedItems.map(service => ({
+        services: selectedItems.map(service => ({
           service: service._id
-        }))
+        })),
+        fidelity: isFidelity
       }
       API.post('/clients', newClient)
 
@@ -194,9 +200,9 @@ export function App() {
                   </div>
 
                   <button
-                    className='flex items-center justify-center text-xl font-bold text-white bg-black rounded py-[6px] w-full mb-12  disabled:bg-gray-550'
+                    className='flex items-center justify-center text-xl font-bold text-white bg-black rounded py-[6px] w-full mb-12 disabled:bg-gray-550'
                     onClick={handleFinishClient}
-                    disabled={isLoading}
+                    disabled={isLoading || !name || selectedItems.length === 0}
                   >
                     {isLoading ? (
                       <Loading
