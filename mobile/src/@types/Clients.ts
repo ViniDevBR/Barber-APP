@@ -2,6 +2,7 @@ export interface IClient {
   _id: string
   name: string
   services: Array<IServices>
+  fidelity: boolean
 }
 
 export interface IServices {
