@@ -26,7 +26,7 @@ interface Props {
 }
 
 export function ModalAddClient({ onClose, ...props }: Props) {
-  const [fidelity, setFidelity] = useState<boolean>(false)
+  const [isFidelity, setIsFidelity] = useState<boolean>(false)
   const [selectedItems, setSelectedItems] = useState<ISelects[]>([])
   const [textInput, setTextInput] = useState<string>('')
   const [services, setServices] = useState<ISelects[]>([])
@@ -39,16 +39,16 @@ export function ModalAddClient({ onClose, ...props }: Props) {
         prevState.filter(salvedService => salvedService._id !== service._id)
       )
     }
-
     setSelectedItems(prevState => prevState.concat(service))
   }
 
   async function handleNewClient() {
     const newClient = {
       name: textInput,
-      services: fidelity ? [] : selectedItems.map(service => ({
+      services: selectedItems.map(service => ({
         service: service._id
-      }))
+      })),
+      fidelity: isFidelity,
     }
     await API.post('/clients', newClient)
 
@@ -56,13 +56,13 @@ export function ModalAddClient({ onClose, ...props }: Props) {
   }
 
   function handleCancelButton() {
-    setFidelity(false)
+    setIsFidelity(false)
     setSelectedItems([])
     setTextInput('')
     onClose()
   }
 
-  const valueOrFidelity = fidelity ? 0 : finalValue
+  const valueOrFidelity = isFidelity ? 0 : finalValue
 
   async function getInfosFromServer() {
     try {
@@ -122,7 +122,7 @@ export function ModalAddClient({ onClose, ...props }: Props) {
 
             <DataContent>
               <Text variant='title'>Fidelidade</Text>
-              <Fidelity state={fidelity} setState={setFidelity} />
+              <Fidelity state={isFidelity} setState={setIsFidelity} />
             </DataContent>
           </DataContainer>
 
