@@ -27,6 +27,7 @@ interface Props {
 
 export function ModalAddClient({ onClose, ...props }: Props) {
   const [isFidelity, setIsFidelity] = useState<boolean>(false)
+  const [isLoading, setIsLoading] = useState<boolean>(false)
   const [selectedItems, setSelectedItems] = useState<ISelects[]>([])
   const [textInput, setTextInput] = useState<string>('')
   const [services, setServices] = useState<ISelects[]>([])
@@ -43,16 +44,24 @@ export function ModalAddClient({ onClose, ...props }: Props) {
   }
 
   async function handleNewClient() {
-    const newClient = {
-      name: textInput,
-      services: selectedItems.map(service => ({
-        service: service._id
-      })),
-      fidelity: isFidelity,
-    }
-    await API.post('/clients', newClient)
+    try {
+      setIsLoading(true)
+      const newClient = {
+        name: textInput,
+        services: selectedItems.map(service => ({
+          service: service._id
+        })),
+        fidelity: isFidelity,
+      }
+      await API.post('/clients', newClient)
 
-    handleCancelButton()
+    } catch (error) {
+      console.log(error)
+
+    } finally {
+      setIsLoading(false)
+      handleCancelButton()
+    }
   }
 
   function handleCancelButton() {
@@ -72,6 +81,7 @@ export function ModalAddClient({ onClose, ...props }: Props) {
       console.log(error)
     }
   }
+
   useEffect(() => {
     getInfosFromServer()
   },[])
@@ -83,7 +93,7 @@ export function ModalAddClient({ onClose, ...props }: Props) {
       presentationStyle='pageSheet'
       onRequestClose={onClose}
     >
-      <ScrollView>
+      <ScrollView style={{ backgroundColor: '#151515', minHeight: '100%' }}>
         <Container>
           <Text>Adicionar Cliente</Text>
 
@@ -150,7 +160,8 @@ export function ModalAddClient({ onClose, ...props }: Props) {
               variant='add'
               title='Adicionar'
               onPress={handleNewClient}
-              disabled={!textInput}
+              isLoading={isLoading}
+              disabled={!textInput || isLoading}
             />
           </DataContainer>
         </Container>
