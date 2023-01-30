@@ -1,3 +1,4 @@
+import Animated from 'react-native-reanimated'
 import styled, { css } from 'styled-components/native'
 
 interface INameProps {
@@ -5,7 +6,7 @@ interface INameProps {
 }
 
 export const Container = styled.View`
-  background-color: ${({theme}) => theme.COLORS.GRAY_100};
+  background-color: ${({ theme }) => theme.COLORS.GRAY_100};
   padding: 12px 20px;
   border-radius: 8px;
   margin-bottom: 12px;
@@ -13,19 +14,20 @@ export const Container = styled.View`
   align-items: center;
   justify-content: space-between;
 `
+export const AnimatedContainer = Animated.createAnimatedComponent(Container)
 
 export const Name = styled.Text<INameProps>`
-  font-size: ${({theme}) => theme.FONT_SIZE.SEMI_LARGE};
-  font-weight: ${({theme}) => theme.FONT_WEIGHT.EXTRA_BOLD};
+  font-size: ${({ theme }) => theme.FONT_SIZE.SEMI_LARGE};
+  font-weight: ${({ theme }) => theme.FONT_WEIGHT.EXTRA_BOLD};
 
-  ${({variant}) => variant === 'price' && css`
-    color: ${({theme}) => theme.COLORS.GREEN_500};
+  ${({ variant }) => variant === 'price' && css`
+    color: ${({ theme }) => theme.COLORS.GREEN_500};
   `}
 
-  ${({variant}) => variant === 'finish' && css`
-    color: ${({theme}) => theme.COLORS.WHITE};
-    font-weight: ${({theme}) => theme.FONT_WEIGHT.MEDIUM};
-    font-size: ${({theme}) => theme.FONT_SIZE.SMALL};
+  ${({ variant }) => variant === 'finish' && css`
+    color: ${({ theme }) => theme.COLORS.WHITE};
+    font-weight: ${({ theme }) => theme.FONT_WEIGHT.MEDIUM};
+    font-size: ${({ theme }) => theme.FONT_SIZE.SMALL};
   `}
 `
 
@@ -49,7 +51,7 @@ export const PriceContainer = styled.View`
 `
 
 export const ButtonFinish = styled.TouchableOpacity`
-  background-color: ${({theme}) => theme.COLORS.GRAY_600};
+  background-color: ${({ theme }) => theme.COLORS.GRAY_600};
   margin-top: 12px;
   padding: 4px 0px;
   align-items: center;
