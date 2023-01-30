@@ -27,6 +27,11 @@
     "indent": ["error", 2],
     "linebreak-style": ["error", "windows"],
     "quotes": ["error", "single"],
-    "semi": ["error", "never"]
+    "semi": ["error", "never"],
+    "object-curly-spacing": [
+      "error",
+      "always",
+      { "objectsInObjects": false, "arraysInObjects": false }
+    ]
   }
 }

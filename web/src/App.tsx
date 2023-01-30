@@ -14,7 +14,7 @@ import { WhatsApp } from './components/WhatsApp'
 import { Input } from './components/Input'
 import { Select } from './components/Select'
 import { Fidelity } from './components/Fidelity'
-import { BounceLoader as Loading} from 'react-spinners'
+import { BounceLoader as Loading } from 'react-spinners'
 //ICONS
 import { Money, User, CheckCircle } from 'phosphor-react'
 //@TYPES
