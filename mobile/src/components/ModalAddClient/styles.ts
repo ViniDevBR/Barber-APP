@@ -15,12 +15,12 @@ export const Container = styled.View`
 `
 
 export const Text = styled.Text<IText>`
-  color: ${({theme}) => theme.COLORS.WHITE};
-  font-size: ${({theme}) => theme.FONT_SIZE.BIG};
+  color: ${({ theme }) => theme.COLORS.WHITE};
+  font-size: ${({ theme }) => theme.FONT_SIZE.BIG};
 
-  ${({variant}) => variant === 'title' && css`
-    font-size: ${({theme}) => theme.FONT_SIZE.REGULAR};
-    font-weight: ${({theme}) => theme.FONT_WEIGHT.BOLD};
+  ${({ variant }) => variant === 'title' && css`
+    font-size: ${({ theme }) => theme.FONT_SIZE.REGULAR};
+    font-weight: ${({ theme }) => theme.FONT_WEIGHT.BOLD};
     margin-bottom: 8px;
   `}
 `
@@ -41,7 +41,7 @@ export const DataContent = styled.Pressable`
 `
 
 export const LateralView = styled.View`
-  background-color: ${({theme}) => theme.COLORS.BLUE_100};
+  background-color: ${({ theme }) => theme.COLORS.BLUE_100};
   width: 5px;
   height: 92%;
   margin-top: 7px;

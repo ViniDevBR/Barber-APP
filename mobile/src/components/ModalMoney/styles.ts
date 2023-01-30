@@ -16,12 +16,12 @@ export const Overlay = styled.Pressable`
 `
 
 export const TextContent = styled.Text<IText>`
-  color: ${({theme}) => theme.COLORS.WHITE};
-  font-size: ${({theme}) => theme.FONT_SIZE.BIG};
+  color: ${({ theme }) => theme.COLORS.WHITE};
+  font-size: ${({ theme }) => theme.FONT_SIZE.BIG};
   margin-bottom: 28px;
 
-  ${({variant}) => variant === 'content' && css`
-    font-size: ${({theme}) => theme.FONT_SIZE.REGULAR};
+  ${({ variant }) => variant === 'content' && css`
+    font-size: ${({ theme }) => theme.FONT_SIZE.REGULAR};
     margin-bottom: 0px;
   `}
 `

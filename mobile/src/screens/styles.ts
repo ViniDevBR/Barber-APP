@@ -54,7 +54,7 @@ export const Title = styled.Text<TTitle>`
     padding-left: 3px;
   `}
 
-  ${({variant}) => variant === 'total' && css`
+  ${({ variant }) => variant === 'total' && css`
     font-weight: ${({ theme }) => theme.FONT_WEIGHT.MEDIUM};
     color: ${({ theme }) => theme.COLORS.GREEN_100};
   `}

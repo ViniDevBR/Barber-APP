@@ -10,7 +10,7 @@ interface Props extends TouchableOpacityProps {
   state: boolean
   setState: Dispatch<SetStateAction<boolean>>
 }
-export function Fidelity({ state, setState, ...props}: Props) {
+export function Fidelity({ state, setState, ...props }: Props) {
   const { COLORS } = useTheme()
 
   return (
