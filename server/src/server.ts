@@ -6,7 +6,7 @@ import cors from 'cors'
 //MONGO
 import mongoose from 'mongoose'
 
-//npm run dev
+
 const app = express()
 
 mongoose.set('strictQuery', true)
