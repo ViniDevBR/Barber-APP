@@ -35,7 +35,6 @@ export function App() {
   const [isLoading, setIsLoading] = useState<boolean>(false)
 
   const finalValue = selectedItems.reduce((acc, ccr) => acc + ccr.price, 0)
-  const valueOrFidelity = isFidelity ? 0 : finalValue
 
   const hour = new Date().getHours()
   const Hour = () => {
@@ -71,6 +70,20 @@ export function App() {
     }
 
     setSelectedItems(prev => [...prev, service])
+  }
+
+  function valueOrFidelity() {
+    const name = selectedItems.map(services => services.name)
+    if (name.includes('Cabelo') && name.includes('Barba') && !name.includes('Sobrancelha')) {
+      return 45
+    }
+    if (name.includes('Cabelo') && !name.includes('Barba') && name.includes('Sobrancelha')) {
+      return 35
+    }
+    if (name.includes('Cabelo') && name.includes('Barba') && name.includes('Sobrancelha')) {
+      return 50
+    }
+    return finalValue
   }
 
   async function handleFinishClient() {
@@ -195,7 +208,7 @@ export function App() {
                     <Input
                       disabled
                       icon={<Money size={24} color='#000' weight='duotone' />}
-                      value={formatCoin(valueOrFidelity)}
+                      value={formatCoin(isFidelity ? 0 : valueOrFidelity())}
                     />
                   </div>
 
