@@ -18,15 +18,21 @@ import { formatCoin } from '../../utils/formatCoin'
 interface IClientCardProps {
   client: IClient
   onDecrement: (client: IClient) => void
+  onRemove: (client: IClient) => void
   services: IServices[]
 }
 
-export function ClientCard({ services, onDecrement, client }: IClientCardProps) {
-
+export function ClientCard({ services, onDecrement, client, onRemove }: IClientCardProps) {
   const finalValue = () => {
     const name = services.map(services => services.service.name)
 
+    if (client.fidelity === true) {
+      return 0
+    }
     if(name.includes('Cabelo') && name.includes('Barba') && !name.includes('Sobrancelha')) {
+      return 45
+    }
+    if(name.includes('Cabelo') && !name.includes('Barba') && name.includes('Sobrancelha')) {
       return 35
     }
     if(name.includes('Cabelo') && name.includes('Barba') && name.includes('Sobrancelha')) {
@@ -34,6 +40,7 @@ export function ClientCard({ services, onDecrement, client }: IClientCardProps) 
     }
     return services.reduce((acc, ccr) => acc + ccr.service.price, 0)
   }
+
 
   return (
     <Container>
@@ -55,6 +62,9 @@ export function ClientCard({ services, onDecrement, client }: IClientCardProps) 
 
         <ButtonFinish onPress={() => onDecrement(client)}>
           <Name variant='finish'>Finalizar</Name>
+        </ButtonFinish>
+        <ButtonFinish onPress={() => onRemove(client)} variant='finish'>
+          <Name variant='finish'>Remover</Name>
         </ButtonFinish>
       </PriceContainer>
     </Container>

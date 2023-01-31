@@ -9,6 +9,7 @@ interface Props {
   visible: boolean
   onClose: VoidFunction
   onCleanValue: VoidFunction
+  onSyncMoney: VoidFunction
   valueDay: number
   valueMonth: number
 }
@@ -20,6 +21,7 @@ export function ModalMoney(props: Props) {
       transparent
       animationType='fade'
       onRequestClose={props.onClose}
+      onShow={props.onSyncMoney}
     >
       <Overlay onPress={props.onClose}/>
       <Container>

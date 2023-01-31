@@ -1,7 +1,6 @@
-import Animated from 'react-native-reanimated'
 import styled, { css } from 'styled-components/native'
 
-interface INameProps {
+interface IProps {
   variant?: 'price' | 'finish'
 }
 
@@ -14,14 +13,14 @@ export const Container = styled.View`
   align-items: center;
   justify-content: space-between;
 `
-export const AnimatedContainer = Animated.createAnimatedComponent(Container)
 
-export const Name = styled.Text<INameProps>`
-  font-size: ${({ theme }) => theme.FONT_SIZE.SEMI_LARGE};
+export const Name = styled.Text<IProps>`
+  font-size: 30px;
   font-weight: ${({ theme }) => theme.FONT_WEIGHT.EXTRA_BOLD};
 
   ${({ variant }) => variant === 'price' && css`
     color: ${({ theme }) => theme.COLORS.GREEN_500};
+    font-size: ${({ theme }) => theme.FONT_SIZE.SEMI_LARGE};
   `}
 
   ${({ variant }) => variant === 'finish' && css`
@@ -32,7 +31,7 @@ export const Name = styled.Text<INameProps>`
 `
 
 export const NameContainer = styled.View`
-
+  align-self: flex-start;
 `
 
 export const EmptyFlatList = styled.View`
@@ -41,8 +40,8 @@ export const EmptyFlatList = styled.View`
 `
 
 export const Image = styled.Image`
-  width: 30px;
-  height: 30px;
+  width: 40px;
+  height: 40px;
   margin-right: 4px;
 `
 
@@ -50,12 +49,16 @@ export const PriceContainer = styled.View`
   align-items: center;
 `
 
-export const ButtonFinish = styled.TouchableOpacity`
+export const ButtonFinish = styled.TouchableOpacity<IProps>`
   background-color: ${({ theme }) => theme.COLORS.GRAY_600};
-  margin-top: 12px;
+  margin-top: 5px;
   padding: 4px 0px;
   align-items: center;
   justify-content: center;
   border-radius: 4px;
   width: 100px;
+
+  ${({ variant }) => variant === 'finish' && css`
+    background-color: ${({ theme }) => theme.COLORS.LIGHT_RED};
+  `}
 `

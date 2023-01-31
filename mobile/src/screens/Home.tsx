@@ -46,12 +46,18 @@ export function Home() {
 
   function onDecrementClient(Client: IClient) {
     try {
-      API.delete(`/clients/${Client._id}`)
-      setClientsList(prevState =>
-        prevState.filter(client => client._id !== Client._id)
-      )
-
       handleAddToTotal(Client)
+      onRemoveClient(Client)
+
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  async function onRemoveClient(Client: IClient) {
+    try {
+      setClientsList(prevState => prevState.filter(client => client._id !== Client._id))
+      API.delete(`/clients/${Client._id}`)
     } catch (error) {
       console.log(error)
     }
@@ -62,8 +68,18 @@ export function Home() {
     const findServices = findClient.map(atribute => atribute.services).flat()
     const addToTotal = findServices.reduce((acc, ccr) => acc + ccr.service.price, 0)
 
+    if (findClient[0].fidelity === true) {
+      return
+    }
+
     const name = findServices.map(services => services.service.name)
     if (name.includes('Cabelo') && name.includes('Barba') && !name.includes('Sobrancelha')) {
+      return (
+        setTotalDay(prevState => prevState + 45),
+        setTotalMonth(prevState => prevState + 45)
+      )
+    }
+    if (name.includes('Cabelo') && !name.includes('Barba') && name.includes('Sobrancelha')) {
       return (
         setTotalDay(prevState => prevState + 35),
         setTotalMonth(prevState => prevState + 35)
@@ -76,15 +92,19 @@ export function Home() {
       )
     }
 
-    return (
-      setTotalDay(prevState => prevState + addToTotal),
-      setTotalMonth(prevState => prevState + addToTotal),
+    setTotalDay(prevState => prevState + addToTotal)
+    setTotalMonth(prevState => prevState + addToTotal)
+  }
 
-      await API.post('/money', {
-        totalOfMonth: totalMonth,
-        totalOfDay: totalDay
+  async function updateMoney() {
+    try {
+      await API.put('/money', {
+        totalOfDay: totalDay,
+        totalOfMonth: totalMonth
       })
-    )
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   async function handleCleanValues() {
@@ -93,7 +113,7 @@ export function Home() {
         totalOfDay: 0,
         totalOfMonth: 0
       }
-      await API.post('/money', infos)
+      await API.put('/money', infos)
 
       setTotalDay(0)
       setTotalMonth(0)
@@ -119,8 +139,13 @@ export function Home() {
 
       setClientsList(clientsData.data)
 
+
+      //https://www.mongodb.com/docs/atlas/triggers/#scheduled-triggers
       const moneyInfos: Array<IMoney> = moneyData.data
-      moneyInfos.map(info => (setTotalDay(info.totalOfDay), setTotalMonth(info.totalOfMonth)))
+      moneyInfos.map(info => (
+        setTotalDay(info.totalOfDay),
+        setTotalMonth(info.totalOfMonth))
+      )
 
     } catch (error) {
       console.log(error)
@@ -128,11 +153,11 @@ export function Home() {
   }
 
   async function clearValues() {
-    today === lastDayDate && await API.post('/money', {
+    today === lastDayDate && await API.put('/money', {
       totalOfMonth: 0,
       totalOfDay: 0
     })
-    hour === 0 && await API.post('/money', {
+    hour === 0 && await API.put('/money', {
       totalOfMonth: totalMonth,
       totalOfDay: 0
     })
@@ -177,6 +202,7 @@ export function Home() {
             client={client}
             services={client.services}
             onDecrement={onDecrementClient}
+            onRemove={onRemoveClient}
           />
         )}
       />
@@ -190,6 +216,7 @@ export function Home() {
         visible={isModalMoney}
         onClose={() => setIsModalMoney(false)}
         onCleanValue={handleCleanValues}
+        onSyncMoney={updateMoney}
         valueDay={totalDay}
         valueMonth={totalMonth}
       />

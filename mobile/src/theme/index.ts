@@ -17,6 +17,7 @@ export const light = {
     GREEN_500: '#004A10',
 
     RED: '#FF0000',
+    LIGHT_RED: '#FF000090',
 
     BLUE_100: '#828EFF'
   },

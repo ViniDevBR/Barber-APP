@@ -71,7 +71,19 @@ export function ModalAddClient({ onClose, ...props }: Props) {
     onClose()
   }
 
-  const valueOrFidelity = isFidelity ? 0 : finalValue
+  function valueOrFidelity() {
+    const name = selectedItems.map(services => services.name)
+    if (name.includes('Cabelo') && name.includes('Barba') && !name.includes('Sobrancelha')) {
+      return 45
+    }
+    if (name.includes('Cabelo') && !name.includes('Barba') && name.includes('Sobrancelha')) {
+      return 35
+    }
+    if (name.includes('Cabelo') && name.includes('Barba') && name.includes('Sobrancelha')) {
+      return 50
+    }
+    return finalValue
+  }
 
   async function getInfosFromServer() {
     try {
@@ -145,7 +157,7 @@ export function ModalAddClient({ onClose, ...props }: Props) {
                 editable={false}
                 name='value'
                 icon='dollar-sign'
-                value={formatCoin(valueOrFidelity)}
+                value={formatCoin(isFidelity ? 0 : valueOrFidelity())}
               />
             </DataContent>
           </DataContainer>
