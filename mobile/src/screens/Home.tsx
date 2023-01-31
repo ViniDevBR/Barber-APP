@@ -107,28 +107,22 @@ export function Home() {
     }
   }
 
-  async function handleCleanValues() {
+  async function handleCleanValues(type: 'day' | 'month') {
     try {
       const infos = {
-        totalOfDay: 0,
-        totalOfMonth: 0
+        totalOfDay: type === 'day' ? 0 : totalDay,
+        totalOfMonth: type === 'month' ? 0 : totalMonth
       }
       await API.put('/money', infos)
 
-      setTotalDay(0)
-      setTotalMonth(0)
-
     } catch (error) {
       console.log(error)
+
+    } finally {
+      type === 'day' && setTotalDay(0)
+      type === 'month' && setTotalMonth(0)
     }
   }
-
-  const date = new Date()
-  const lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0)
-  const lastDayDate = lastDay.toLocaleDateString()
-
-  const time = Date.now()
-  const today = new Date(time).toLocaleDateString()
 
   async function getInfosFromServer() {
     try {
@@ -151,21 +145,6 @@ export function Home() {
       console.log(error)
     }
   }
-
-  async function clearValues() {
-    today === lastDayDate && await API.put('/money', {
-      totalOfMonth: 0,
-      totalOfDay: 0
-    })
-    hour === 0 && await API.put('/money', {
-      totalOfMonth: totalMonth,
-      totalOfDay: 0
-    })
-  }
-
-  useEffect(() => {
-    clearValues()
-  }, [today, hour])
 
   useEffect(() => {
     getInfosFromServer()
@@ -215,7 +194,7 @@ export function Home() {
       <ModalMoney
         visible={isModalMoney}
         onClose={() => setIsModalMoney(false)}
-        onCleanValue={handleCleanValues}
+        onCleanValues={handleCleanValues}
         onSyncMoney={updateMoney}
         valueDay={totalDay}
         valueMonth={totalMonth}

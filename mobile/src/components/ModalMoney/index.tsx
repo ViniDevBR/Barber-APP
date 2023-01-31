@@ -1,5 +1,5 @@
 //STYLED COMPONENTS
-import { Container, ModalContainer, Overlay, TextContent } from './styles'
+import { Container, ModalContainer, Overlay, TextContent, ButtonsContainer } from './styles'
 //COMPONENTS
 import { Button } from '../Button'
 //UTILS
@@ -8,13 +8,13 @@ import { formatCoin } from '../../utils/formatCoin'
 interface Props {
   visible: boolean
   onClose: VoidFunction
-  onCleanValue: VoidFunction
+  onCleanValues: (type: 'day' | 'month') => void
   onSyncMoney: VoidFunction
   valueDay: number
   valueMonth: number
 }
 
-export function ModalMoney(props: Props) {
+export function ModalMoney({ onCleanValues, ...props }: Props) {
   return (
     <ModalContainer
       visible={props.visible}
@@ -35,7 +35,10 @@ export function ModalMoney(props: Props) {
           Total do mês: <TextContent variant='content'>{formatCoin(props.valueMonth)}</TextContent>
         </TextContent>
 
-        <Button title='Limpar' onPress={props.onCleanValue}/>
+        <ButtonsContainer>
+          <Button variant='cancel' title='Resetar Dia' onPress={() => onCleanValues('day')}/>
+          <Button title='Resetar Mês' onPress={() => onCleanValues('month')}/>
+        </ButtonsContainer>
       </Container>
     </ModalContainer>
   )

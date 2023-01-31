@@ -25,3 +25,8 @@ export const TextContent = styled.Text<IText>`
     margin-bottom: 0px;
   `}
 `
+
+export const ButtonsContainer = styled.View`
+  justify-content: space-between;
+  flex-direction: row;
+`

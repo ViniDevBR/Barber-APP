@@ -11,14 +11,13 @@ export const Container = styled.TouchableOpacity<IButton>`
   justify-content: center;
   border-radius: 8px;
   height: 50px;
+  flex: 1;
 
   ${({ variant }) => variant === 'cancel' && css`
-    flex: 1;
     margin-right: 10px;
   `}
 
   ${({ variant }) => variant === 'add' && css`
-    flex: 1;
     margin-left: 10px;
     background-color: ${({ theme }) => theme.COLORS.GREEN_500};
   `}
