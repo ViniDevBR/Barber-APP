@@ -133,13 +133,11 @@ export function Home() {
 
       setClientsList(clientsData.data)
 
-
-      //https://www.mongodb.com/docs/atlas/triggers/#scheduled-triggers
       const moneyInfos: Array<IMoney> = moneyData.data
       moneyInfos.map(info => (
         setTotalDay(info.totalOfDay),
-        setTotalMonth(info.totalOfMonth))
-      )
+        setTotalMonth(info.totalOfMonth)
+      ))
 
     } catch (error) {
       console.log(error)
